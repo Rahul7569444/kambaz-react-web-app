@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router";
 import Modules from "./Modules";
 import Home from "./Home";
 import Assignments from "./Assignments";
-import AssignmentEditor from "./Assignments/editor";
+import AssignmentEditor from "./Assignments/Editor";
 
 export default function Courses() {
   return (
