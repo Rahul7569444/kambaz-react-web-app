@@ -1,7 +1,20 @@
-function App() {
-  
+import React from 'react';
+import Labs from './Labs';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
+import Kambaz from './Kambaz';
 
-  return  <p>welcome to MERN stack web app</p>
+
+export default function App () {
+  return (
+    <HashRouter>
+      <div>
+        <Routes>
+          <Route path="/" element={<Navigate to="Labs" />} />
+          <Route path="/Labs/*" element={<Labs />} />
+          <Route path='/Kambaz/*' element={<Kambaz />} />
+        </Routes>
+      </div>
+    </HashRouter>
+  );
 }
 
-export default App
