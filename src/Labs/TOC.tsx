@@ -32,7 +32,7 @@ export default function TOC() {
         </a>
       </li>
       <li className="nav-item">
-        <a id="wd-github" href="https://github.com/Yatish-w/Kambaz-react-web-app" className="nav-link">
+        <a id="wd-github" href="https://github.com/Rahul7569444/kambaz-react-web-app" className="nav-link">
           My GitHub
         </a>
       </li>
