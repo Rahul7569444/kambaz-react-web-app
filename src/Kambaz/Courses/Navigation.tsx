@@ -1,29 +1,57 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import "../styles.css";
 
+interface NavLink {
+  name: string;
+  isExternal?: boolean;
+  url?: string;
+}
+
 export default function CoursesNavigation() {
+  const { pathname } = useLocation();
+  const { cid } = useParams();
+  
+  const links: NavLink[] = [
+    { name: "Home" },
+    { name: "Modules" },
+    { name: "Piazza", isExternal: true, url: "https://piazza.com/class" },
+    { name: "Zoom", isExternal: true, url: "https://northeastern.zoom.us/my/course" },
+    { name: "Assignments" },
+    { name: "Quizzes" },
+    { name: "Grades" },
+    { name: "People" }
+  ];
+  
+  const isActiveLink = (link: NavLink): boolean => {
+    const currentPath = pathname.split("/")[4];
+    return currentPath === link.name;
+  };
+
   return (
     <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
-      <Link id="wd-course-home-link" to="/Kambaz/Courses/1234/Home"
-        className="list-group-item active border border-0">Home</Link>
-      <Link id="wd-course-modules-link" to="/Kambaz/Courses/1234/Modules"
-        className="list-group-item text-danger border border-0">Modules</Link>
-      <a id="wd-course-piazza-link" href="https://piazza.com/"
-        className="list-group-item text-danger border border-0"
-        target="_blank" 
-        rel="noopener noreferrer">Piazza</a>
-      <a id="wd-course-zoom-link" href="https://zoom.us/"
-        className="list-group-item text-danger border border-0"
-        target="_blank" 
-        rel="noopener noreferrer">Zoom</a>
-      <Link id="wd-course-quizzes-link" to="/Kambaz/Courses/1234/Assignments"
-        className="list-group-item text-danger border border-0">Assignments</Link>
-      <Link id="wd-course-assignments-link" to="/Kambaz/Courses/1234/Quizzes"
-        className="list-group-item text-danger border border-0">Quizzes</Link>
-      <Link id="wd-course-grades-link" to="/Kambaz/Courses/1234/Grades"
-        className="list-group-item text-danger border border-0">Grades</Link>
-      <Link id="wd-course-people-link" to="/Kambaz/Courses/1234/People"
-        className="list-group-item text-danger border border-0">People</Link>
+      {links.map((link) => (
+        link.isExternal ? (
+          <a
+            key={link.name}
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="list-group-item border border-0 text-danger"
+          >
+            {link.name}
+          </a>
+        ) : (
+          <Link
+            key={link.name}
+            to={`/Kambaz/Courses/${cid}/${link.name}`}
+            className={`list-group-item border border-0 ${
+              isActiveLink(link) ? "active" : "text-danger"
+            }`}
+          >
+            {link.name}
+          </Link>
+        )
+      ))}
     </div>
   );
 }

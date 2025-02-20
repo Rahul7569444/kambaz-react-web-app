@@ -1,124 +1,44 @@
-import ModulesControls from "./ModulesControls";
-import "../../styles.css";
-import LessonControlButtons from "./LessonControlButtons";
-import { BsGripVertical } from "react-icons/bs";
-import { GrLink } from "react-icons/gr";
-import { FiExternalLink } from "react-icons/fi";
-import ModuleControlButtons from "./ModuleControlButtons";
-export default function Modules() {
-  return (
-    <div className="me-4">
-      <ModulesControls /><br /><br /><br /><br />
-      <ul id="wd-modules" className="list-group rounded-0">
-        <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-          <div className="wd-title p-3 ps-2 bg-secondary">
-            <BsGripVertical className="me-2 fs-3" />
-            Week 1
-            <ModuleControlButtons />
-          </div>
-          <ul className="wd-lessons list-group rounded-0">
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              LEARNING OBJECTIVES
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <text className="ms-5">Introduction to the course</text>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <text className="ms-5">Learn what is Web Development</text>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              READING
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <text className="ms-5">Full Stack Developer - Chapter 1 - Introduction</text>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <text className="ms-5">Full Stack Developer - Chapter 2 - Creating User Interfacest</text>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              SLIDES
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <GrLink className="me-2 fs-3" color="green"/>
-              <text className="ms-2 text-danger">Introduction to Web Development</text>
-              <FiExternalLink className="ms-2 fs-4" color="red"/>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <GrLink className="me-2 fs-3" color="green"/>
-              <text className="ms-2 text-danger">Creating an HTTP server with Node.js</text>
-              <FiExternalLink className="ms-2 fs-4" color="red"/>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <GrLink className="me-2 fs-3" color="green"/>
-              <text className="ms-2 text-danger">Creating a React Application</text>
-              <FiExternalLink className="ms-2 fs-4" color="red"/>
-              <LessonControlButtons />
-            </li>
-          </ul>
-        </li>
-        <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
-          <div className="wd-title p-3 ps-2 bg-secondary">
-            <BsGripVertical className="me-2 fs-3" />
-            Week 2
-            <ModuleControlButtons />
-          </div>
-          <ul className="wd-lessons list-group rounded-0">
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              LEARNING OBJECTIVES
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <text className="ms-5">Learn how to create user interfaces with HTML</text>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <text className="ms-5">Deploy the assignment to Netlify</text>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              SLIDES
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <GrLink className="me-2 fs-3" color="green"/>
-              <text className="ms-2 text-danger">Introduction to HTML and the DOM</text>
-              <FiExternalLink className="ms-2 fs-4" color="red"/>
-              <LessonControlButtons />
-            </li>
-            <li className="wd-lesson list-group-item p-3 ps-1">
-              <BsGripVertical className="me-2 fs-3" />
-              <GrLink className="me-2 fs-3" color="green"/>
-              <text className="ms-2 text-danger">Formatting web content with Headings and Lists</text>
-              <FiExternalLink className="ms-2 fs-4" color="red"/>
-              <LessonControlButtons />
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  );
+import { FaPlus } from "react-icons/fa6";
+import { MdDoNotDisturbAlt } from "react-icons/md";
+import GreenCheckmark from "./GreenCheckmark";
+export default function ModulesControls() {
+    return (
+        <div id="wd-modules-controls" className="text-nowrap">
+            <button id="wd-add-module-btn" className="btn btn-lg btn-danger me-1 float-end">
+                <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
+                Module</button>
+            <div className="dropdown d-inline me-1 float-end">
+                <button id="wd-publish-all-btn" className="btn btn-lg btn-secondary dropdown-toggle"
+                    type="button" data-bs-toggle="dropdown">
+                    <GreenCheckmark />
+                    Publish All</button>
+                <ul className="dropdown-menu">
+                    <li>
+                        <a id="wd-publish-all-modules-and-items-btn" className="dropdown-item" href="#">
+                            <GreenCheckmark />
+                            Publish all modules and items</a>
+                    </li>
+                    <li>
+                        <a id="wd-publish-modules-only-button" className="dropdown-item" href="#">
+                            <GreenCheckmark />
+                            Publish modules only</a>
+                    </li>
+                    <li>
+                        <a id="wd-unpublish-all-modules-and-items-btn" className="dropdown-item" href="#">
+                            <MdDoNotDisturbAlt className="me-1 fs-5" />
+                            Unpublish all modules and items</a>
+                    </li>
+                    <li>
+                        <a id="wd-unpublish-modules-only-button" className="dropdown-item" href="#">
+                            <MdDoNotDisturbAlt className="me-1 fs-5" />
+                            Unpublish modules only</a>
+                    </li>
+                </ul>
+            </div>
+            <button id="wd-add-view-progress-btn" className="btn btn-lg btn-secondary me-1 float-end">
+                View Progress</button>
+            <button id="wd-add-collapse-all-btn" className="btn btn-lg btn-secondary me-1 float-end">
+                Collapse All</button>
+        </div>
+    );
 }
