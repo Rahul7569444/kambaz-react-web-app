@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FormControl } from "react-bootstrap";
 export default function DateStateVariable() {
   const [startDate, setStartDate] = useState(new Date());
