@@ -1,18 +1,30 @@
+//import React from "react";
 import "../../styles.css";
 import { BsGripVertical } from "react-icons/bs";
 import { MdOutlineAssignment } from "react-icons/md";
+import { FaTrash } from "react-icons/fa";
 import AssignmentControlButtons from "./AssignmentControlButtons";
 import DescControlButtons from "./DescControlButtons";
 import AssignmentControls from "./AssignmentControls";
-import { useParams } from "react-router";
-import * as db from "../../Database";
-import { Link,  } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setAssignment, deleteAssignment } from "./reducer";
 export default function Assignments() {
   const { cid } = useParams();
-  const assignments = db.assignments;
+  const intialAssignment = {
+    title: "New Assignment Title",
+    course: cid,
+    description: "New Description",
+    points: "100",
+    due: "2023-09-18T23:59",
+    unlock: "2023-09-11T00:00"
+  }
+  const { assignments } = useSelector((state: any) => state.assignmentReducer);
+  //const { assignment } = useSelector((state: any) => state.assignmentReducer);
+  const dispatch = useDispatch();
   return (
     <div className="me-4">
-      <AssignmentControls /><br /><br /><br /><br />
+      <AssignmentControls setAssignment={() => dispatch(setAssignment(intialAssignment))} /><br /><br /><br /><br />
       <ul id="wd-modules" className="list-group rounded-0">
         <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
           <div className="wd-title p-3 ps-2 bg-secondary">
@@ -24,22 +36,32 @@ export default function Assignments() {
           <ul className="wd-lessons list-group rounded-0">
             {assignments.filter((assignment: any) => assignment.course === cid).map((assignment: any) => (
               <li className="wd-lesson list-group-item p-3 ps-1">
-              <div className="position-absolute top-50 start-0 translate-middle-y">
-                <BsGripVertical className="me-2 fs-3" />
-                <MdOutlineAssignment className="me-2 fs-3" color="green" />
-              </div>
-              <div className="position-absolute top-50 start-50 translate-middle w-75">
-                <Link className="wd-assignment-link text-black link-underline link-underline-opacity-0"
-                  to={`./${assignment._id}`}>
-                  {assignment.title}
-                </Link>
-                <p><text className="text-danger">Multiple Modules</text> | <b>Not Available until</b> {assignment.unlock.split("T")[0]} at {assignment.unlock.split("T")[1]} | <b>Due</b> {assignment.due.split("T")[0]} at {assignment.due.split("T")[1]} | {assignment.points} pts</p>
-              </div>
-              <div className="position-absolute top-50 end-0 translate-middle-y">
-                <DescControlButtons />
-              </div>
-              <br /><br /><br />
-            </li>
+                <div className="position-absolute top-50 start-0 translate-middle-y">
+                  <BsGripVertical className="me-2 fs-3" />
+                  <MdOutlineAssignment className="me-2 fs-3" color="green" />
+                </div>
+                <div className="position-absolute top-50 start-50 translate-middle w-75">
+                  <Link className="wd-assignment-link text-black link-underline link-underline-opacity-0"
+                    to={`./${assignment._id}`} onClick={() => dispatch(setAssignment(assignment))}>
+                    {assignment.title}
+                  </Link>
+                  <p><text className="text-danger">Multiple Modules</text> | <b>Not Available until</b> {assignment.unlock.split("T")[0]} at {assignment.unlock.split("T")[1]} | <b>Due</b> {assignment.due.split("T")[0]} at {assignment.due.split("T")[1]} | {assignment.points} pts</p>
+                </div>
+                <div className="position-absolute top-50 end-0 translate-middle-y">
+                  <FaTrash className="text-danger me-2" onClick={(e) => {
+                    e.preventDefault();
+
+                    const confirmDelete = window.confirm(
+                      "Are you sure you want to delete this assignment?"
+                    );
+                    if (confirmDelete) {
+                      dispatch(deleteAssignment(assignment._id));
+                    }
+                  }} />
+                  <DescControlButtons />
+                </div>
+                <br /><br /><br />
+              </li>
             ))}
           </ul>
         </li>
