@@ -1,4 +1,4 @@
-//import React from "react";
+import { useEffect } from "react";
 import "../../styles.css";
 import { BsGripVertical } from "react-icons/bs";
 import { MdOutlineAssignment } from "react-icons/md";
@@ -8,7 +8,8 @@ import DescControlButtons from "./DescControlButtons";
 import AssignmentControls from "./AssignmentControls";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setAssignment, deleteAssignment } from "./reducer";
+import { setAssignment, deleteAssignment, setAssignments } from "./reducer";
+import * as assignmentClient from "./client";
 export default function Assignments() {
   const { cid } = useParams();
   const intialAssignment = {
@@ -22,6 +23,19 @@ export default function Assignments() {
   const { assignments } = useSelector((state: any) => state.assignmentReducer);
   //const { assignment } = useSelector((state: any) => state.assignmentReducer);
   const dispatch = useDispatch();
+  const fetchAllAssignments = async () => {
+    const modules = await assignmentClient.fetchAssignmentsForCourse(cid as string);
+    dispatch(setAssignments(modules));
+  };
+  useEffect(() => {
+    fetchAllAssignments();
+  }, []);
+
+  const removeAssignment = async (assignmentId: string) => {
+    await assignmentClient.deleteAssignment(assignmentId);
+    dispatch(deleteAssignment(assignmentId));
+  }
+
   return (
     <div className="me-4">
       <AssignmentControls setAssignment={() => dispatch(setAssignment(intialAssignment))} /><br /><br /><br /><br />
@@ -34,7 +48,7 @@ export default function Assignments() {
             <span className="float-end border boder-dark rounded p-1">40% of Total</span>
           </div>
           <ul className="wd-lessons list-group rounded-0">
-            {assignments.filter((assignment: any) => assignment.course === cid).map((assignment: any) => (
+            {assignments.map((assignment: any) => (
               <li className="wd-lesson list-group-item p-3 ps-1">
                 <div className="position-absolute top-50 start-0 translate-middle-y">
                   <BsGripVertical className="me-2 fs-3" />
@@ -55,7 +69,7 @@ export default function Assignments() {
                       "Are you sure you want to delete this assignment?"
                     );
                     if (confirmDelete) {
-                      dispatch(deleteAssignment(assignment._id));
+                      removeAssignment(assignment._id);
                     }
                   }} />
                   <DescControlButtons />

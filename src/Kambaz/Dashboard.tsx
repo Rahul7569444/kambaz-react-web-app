@@ -1,8 +1,8 @@
-import  { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-//import * as db from "./Database";
-import { addEnrollment, deleteEnrollment } from "./Courses/People/reducer";
+import { addEnrollment, deleteEnrollment, setEnrollments } from "./Courses/People/reducer";
+import * as enrollmentClient from "./Courses/People/client";
 export default function Dashboard(
   { courses, course, setCourse, addNewCourse,
     deleteCourse, updateCourse }: {
@@ -14,6 +14,20 @@ export default function Dashboard(
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = useSelector((state: any) => state.enrollmentReducer);
   const dispatch = useDispatch();
+
+  //const [enrollments, setEnrollments] = useState<any[]>([]);
+  const fetchEnrollments = async () => {
+    let enrollments = [];
+    try {
+      enrollments = await enrollmentClient.fetchAllEnrollments();
+    } catch (error) {
+      console.error(error);
+    }
+    dispatch(setEnrollments(enrollments));
+  };
+  useEffect(() => {
+    fetchEnrollments();
+  }, [currentUser]);
 
   const [showAllCourses, setShowAllCourses] = useState(false);
 
@@ -37,6 +51,26 @@ export default function Dashboard(
         enrollment.user === currentUser._id &&
         enrollment.course === courseId
     );
+  };
+
+  const removeEnrollment = async (enrollment: any) => {
+    await enrollmentClient.deleteEnrollment(enrollment._id);
+    dispatch(deleteEnrollment(enrollment));
+  }
+
+  const makeEnrollment = async (enrollment: any) => {
+    await enrollmentClient.createNewEnrollment(enrollment);
+    dispatch(addEnrollment(enrollment));
+  }
+
+  const getEnrollmentId = (userId: string, courseId: string): string | null => {
+    const enrollment = enrollments.find(
+      (enrollment: any) =>
+        enrollment.user === userId &&
+        enrollment.course === courseId
+    );
+
+    return enrollment ? enrollment._id : null;
   };
 
   return (
@@ -113,14 +147,14 @@ export default function Dashboard(
 
                   {currentUser.role === "STUDENT" && isEnrolled(course._id) && (
                     <button id="wd-unenroll" className="btn btn-danger me-2 float-end"
-                      onClick={() => dispatch(deleteEnrollment({ user: currentUser._id, course: course._id }))}>
+                      onClick={() => removeEnrollment({_id: getEnrollmentId(currentUser._id, course._id), user: currentUser._id, course: course._id })}>
                       Unenroll
                     </button>
                   )}
 
                   {currentUser.role === "STUDENT" && !isEnrolled(course._id) && (
                     <button id="wd-enroll" className="btn btn-success me-2 float-end"
-                      onClick={() => dispatch(addEnrollment({ user: currentUser._id, course: course._id }))}>
+                      onClick={() => makeEnrollment({ user: currentUser._id, course: course._id })}>
                       Enroll
                     </button>
                   )}
